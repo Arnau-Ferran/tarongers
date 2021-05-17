@@ -1,6 +1,6 @@
 from Server import *
 from Source import *
-from event import *;
+from Event import *;
 
 
 class Scheduler:
