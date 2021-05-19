@@ -13,23 +13,23 @@ class Scheduler:
     def __init__(self):
         # creació dels objectes que composen el meu model
         
-        self.source = Source()
+        self.sources = []
         self.servers = []
         #inicialitztem cadascuna de les hectàrees (processors i generadors d'entitats)
         for x in range(0, 5):
             Server = Server()
             Source = Source()
             self.servers.append(Server)
-            self.sources.append(Sources)
+            self.sources.append(Source)
 
-        for server in self.servers:
-            server.crearConnexio(server2,queue) #TODO no sé molt bé què he de fer
+        '''for server in self.servers:
+                server.crearConnexio(server2,queue) #TODO no sé molt bé què he de fer'''
 
         self.Queue = Queue()
         i=0
         for source in self.sources:
-            self.source[i].crearConnexio(server[i])#TODO no sé molt bé què he de fer
-            ++i
+            source.crearConnexio(self.servers[i])#TODO no sé molt bé què he de fer
+            i = i+1
     
         self.simulationStart=Event(self,'SIMULATION_START', 0,null)
         self.eventlist = []
@@ -65,7 +65,13 @@ class Scheduler:
 
     def tractarEsdeveniment(self,event):
         if (event.tipus=="SIMULATION_START"):
-            # comunicar a tots els objectes que cal preparar-se     
+            # comunicar a tots els objectes que cal preparar-se
+            for i in range(0, 5):
+                self.sources[i].tractarEsdeveniment(event)
+                self.servers[i].tractarEsdeveniment(event)
+
+        
+ 
             
     '''def configurarModel(self):
         print("Indica el número de treballadors: ")

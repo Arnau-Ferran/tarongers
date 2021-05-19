@@ -20,7 +20,7 @@ class Source:
 
         if (event.tipus=='NEXT ARRIVAL'):
             self.processNextArrival()
-        ...
+  
 
     def simulationStart(self,event):
         nouEvent=self.properaArribada(0)
@@ -29,13 +29,9 @@ class Source:
     def processNextArrival(self,event):
         # Cal crear l'entitat 
         entitat=self.crearEntitat(self)
-        # Mirar si es pot transferir a on per toqui
-        if (server.estat==idle):
-            #transferir entitat (es pot fer amb un esdeveniment immediat o invocant a un métode de l'element)
-            server.recullEntitat(event.time,entitat)
-        else:
-            #incrementar entitats perdudes en creació (si s'escau necessari)
-            ...
+        # Mirar si es pot transferir a on pertoqui
+        #transferir entitat (es pot fer amb un esdeveniment immediat o invocant a un métode de l'element)
+        server.recullEntitat(event.time,entitat)
         # Cal programar la següent arribada
         nouEvent=self.properaArribada(event.temps)
         self.scheduler.afegirEsdeveniment(nouEvent)
