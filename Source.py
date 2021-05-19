@@ -5,11 +5,12 @@ from scipy.stats import triang
 
 
 class Source:
+    server = None
 
     def __init__(self, scheduler):
         # inicialitzar element de simulació
         entitatsCreades = 0
-        self.state = idle
+        self.state = "idle"
         self.scheduler = scheduler
 
     def crearConnexio(self, server):
@@ -31,7 +32,7 @@ class Source:
         entitat = self.crearEntitat(self)
         # Mirar si es pot transferir a on pertoqui
         # transferir entitat (es pot fer amb un esdeveniment immediat o invocant a un métode de l'element)
-        server.recullEntitat(event.time, entitat)
+        self.server.recullEntitat(event.time, entitat)
         # Cal programar la següent arribada
         nouEvent = self.properaArribada(event.temps)
         self.scheduler.afegirEsdeveniment(nouEvent)
@@ -41,9 +42,9 @@ class Source:
         tempsEntreArribades = self.calcularTempsEntreArribades()
         # incrementem estadistics si s'escau
         self.entitatsCreades = self.entitatsCreades + 1
-        self.state = busy
+        self.state = "busy"
         # programació primera arribada
-        return Event(self, 'NEXT ARRIVAL', time + tempsEntreArribades, null)
+        return Event(self, 'NEXT ARRIVAL', time + tempsEntreArribades, None)
 
     def calcularTempsEntreArribades(self):
         return 3  # tempsEntreArribades() #implementar distribució del inter-arrival time dels sources triangular(129.0, 167.0, 148.0, getstream(current))
