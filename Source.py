@@ -1,6 +1,7 @@
 #millor treballar amb define o algun sistema simular a l'enum de C++
 from enumeracions import *
 from Server import *
+from scipy.stats import triang 
 
 class Source:
 
@@ -41,10 +42,13 @@ class Source:
 
     def properaArribada(self, time):
         # cada quan generem una arribada (aleatorietat)
-        tempsEntreArribades = _alguna_funcio ()
+        tempsEntreArribades = self.calcularTempsEntreArribades()
         # incrementem estadistics si s'escau
         self.entitatsCreades=self.entitatsCreades+1
         self.state = busy
         # programació primera arribada
         return Event(self,'NEXT ARRIVAL', time+ tempsEntreArribades,null)   
+
+    def calcularTempsEntreArribades:
+        return tempsEntreArribades() #implementar distribució del inter-arrival time dels sources triangular(129.0, 167.0, 148.0, getstream(current))
          
