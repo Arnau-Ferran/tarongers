@@ -26,10 +26,10 @@ class Server:
 
 
     def tractarEsdeveniment(self, event):
-        if (event.tipus == 'SIMULATION START'):
+        if (event.type == 'SIMULATION START'):
             self.simulationStart(event)
 
-        if (event.tipus == 'END_SERVICE'):
+        if (event.type == 'END_SERVICE'):
             self.processarFiServei(event)
 
     def simulationStart(self, event):

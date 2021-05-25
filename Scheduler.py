@@ -8,6 +8,8 @@ class Scheduler:
     eventList = []
     treballadors = 0
     ntreballadors = 0
+    sources = []
+    servers = []
 
     def __init__(self):
         # creació dels objectes que composen el meu model
@@ -16,8 +18,8 @@ class Scheduler:
         self.servers = []
         # inicialitztem cadascuna de les hectàrees (processors i generadors d'entitats)
         for x in range(0, 5):
-            server = Server()
-            source = Source()
+            server = Server(self)
+            source = Source(self)
             self.servers.append(server)
             self.sources.append(source)
 
@@ -45,24 +47,27 @@ class Scheduler:
 
         eventIterator = 0
         # bucle de simulació (condició fi simulació llista buida)
-        while self.eventList[eventIterator]:
+        #while self.eventList[eventIterator]:
+        while eventIterator < len(self.eventList):
+            print("Esdeveniment número:" + str(eventIterator))
             # recuperem event simulacio
             event = self.eventList[eventIterator]
             # actualitzem el rellotge de simulacio
             self.currentTime = event.time
+            print(str(self.currentTime))
             # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
             # també podríem delegar l'acció a un altre objecte
-            event.objecte.tractarEsdeveniment(event)
+            event.object.tractarEsdeveniment(event)
             eventIterator = eventIterator + 1
         #recollida d'estadístics
         self.recollirEstadistics()
 
     def afegirEsdeveniment(self, event):
         # inserir esdeveniment de forma ordenada
-        self.eventList.inserirEvent(event)
+        self.eventList.append(event)
 
     def tractarEsdeveniment(self, event):
-        if (event.tipus == "SIMULATION_START"):
+        if (event.type == "SIMULATION_START"):
             # comunicar a tots els objectes que cal preparar-se
             for i in range(0, 5):
                 self.sources[i].tractarEsdeveniment(event)
@@ -71,6 +76,9 @@ class Scheduler:
             
     def configurarModel(self):
         ntreballadors = 6
+
+    def recollirEstadistics(self):
+        print("Estic recollint estadistics varis")
 
 
 

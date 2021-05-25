@@ -17,10 +17,10 @@ class Source:
         self.server = server
 
     def tractarEsdeveniment(self, event):
-        if (event.tipus == 'SIMULATION START'):
+        if (event.type == 'SIMULATION START'):
             self.simulationStart(event)
 
-        if (event.tipus == 'NEXT ARRIVAL'):
+        if (event.type == 'NEXT ARRIVAL'):
             self.processNextArrival()
 
     def simulationStart(self, event):
