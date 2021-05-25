@@ -1,5 +1,5 @@
 #millor treballar amb define o algun sistema simular a l'enum de C++
-from enumeracions import *
+#from enumerations import *
 from Server import *
 from Event import *
 
@@ -16,9 +16,9 @@ class Server:
         self.queue=queue
         self.server=server2
     
-    def recullEntitat(self,time,entitat):
-        self.entitatsTractades=entitat
-        self.programarFinalServei(time,entitat)
+    def recullEntitat(self,time):
+        #self.entitatsTractades=entitat
+        self.programarFinalServei(time)
 
     def tractarEsdeveniment(self, event):
         if (event.tipus=='SIMULATION START'):
@@ -31,9 +31,9 @@ class Server:
         self.state=idle
         self.entitatsTractades=0
 
-    def programarFinalServei(self, time,entitat):
+    def programarFinalServei(self, time):
         # que triguem a fer un servei (aleatorietat)
-        tempsServei = _alguna_funcio ()
+        tempsServei = 10
         # incrementem estadistics si s'escau
         self.entitatsTractades=self.entitatsTractades+1
         self.state = busy

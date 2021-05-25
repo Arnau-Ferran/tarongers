@@ -9,6 +9,7 @@ class Scheduler:
     currentTime = 0
     eventList = []
     treballadors = 0
+    ntreballadors = 0
     
     def __init__(self):
         # creació dels objectes que composen el meu model
@@ -17,8 +18,8 @@ class Scheduler:
         self.servers = []
         #inicialitztem cadascuna de les hectàrees (processors i generadors d'entitats)
         for x in range(0, 5):
-            Server = Server()
-            Source = Source()
+            Server = Server(self)
+            Source = Source(self)
             self.servers.append(Server)
             self.sources.append(Source)
 
@@ -53,7 +54,7 @@ class Scheduler:
             # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
             # també podríem delegar l'acció a un altre objecte
             event.objecte.tractarEsdeveniment(event)
-            ++eventIterator
+            eventIterator = eventIterator + 1
         
         #recollida d'estadístics
         self.recollirEstadistics()
@@ -73,9 +74,8 @@ class Scheduler:
         
  
             
-    '''def configurarModel(self):
-        print("Indica el número de treballadors: ")
-        self.treballadors= int(input())'''
+    def configurarModel(self):
+        ntreballadors = 6
 
 
 
