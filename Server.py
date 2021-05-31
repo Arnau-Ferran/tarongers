@@ -12,7 +12,8 @@ class Server:
     def __init__(self, scheduler):
         # inicialitzar element de simulació
         entitatsTractades=0
-        self.state="idle"
+        #entitatsPendents = 0
+        self.state="empty"
         self.scheduler=scheduler
         self.entitatActiva=None
         
@@ -20,13 +21,13 @@ class Server:
         self.queue=queue
         self.server=server2
     
-    def recullEntitat(self,time):
+    def novaMaduracio(self,time):
         #self.entitatsTractades=entitat
         self.programarFinalServei(time)
 
 
     def tractarEsdeveniment(self, event):
-        if (event.type == 'SIMULATION START'):
+        if (event.type == 'SIMULATION_START'):
             self.simulationStart(event)
 
         if (event.type == 'END_SERVICE'):
@@ -35,6 +36,7 @@ class Server:
     def simulationStart(self, event):
         self.state = "idle"
         self.entitatsTractades = 0
+        self.entitatsPendents=0
 
 
     def programarFinalServei(self, time):
@@ -42,9 +44,11 @@ class Server:
         tempsServei = 10
         # incrementem estadistics si s'escau
         self.entitatsTractades = self.entitatsTractades + 1
-        self.state = "busy"
-        # programació final servei
-        return Event(self, 'END_SERVICE', time + tempsServei, entitat)
+        self.entitatsPendents = self.entitatsPendents + 1
+        if(self.state=="empty"):
+            self.state = "readyToCollect"
+        # programació final servei, probably calgui comrpovar l'estat
+        return Event(self, 'END_SERVICE', time + tempsServei, None)
 
     def processarFiServei(self, event):
         # Registrar estadístics

@@ -54,7 +54,6 @@ class Scheduler:
             event = self.eventList[eventIterator]
             # actualitzem el rellotge de simulacio
             self.currentTime = event.time
-            print(str(self.currentTime))
             # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
             # també podríem delegar l'acció a un altre objecte
             event.object.tractarEsdeveniment(event)
@@ -69,13 +68,16 @@ class Scheduler:
     def tractarEsdeveniment(self, event):
         if (event.type == "SIMULATION_START"):
             # comunicar a tots els objectes que cal preparar-se
+            print('Entro a tractar esdeveniment al scheduler')
             for i in range(0, 5):
                 self.sources[i].tractarEsdeveniment(event)
                 self.servers[i].tractarEsdeveniment(event)
 
             
     def configurarModel(self):
-        ntreballadors = 6
+        print("Introdueix el nombre de treballadors recol·lecors al camp de tarongers: ")
+        ntreballadors = int(input())
+
 
     def recollirEstadistics(self):
         print("Estic recollint estadistics varis")
