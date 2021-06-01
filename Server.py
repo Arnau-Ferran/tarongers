@@ -7,29 +7,33 @@ from Event import *
 
 
 class Server:
-    server = None
-
+    treballadors = []
+    recoAssignat = None
     def __init__(self, scheduler):
         # inicialitzar element de simulació
-        entitatsTractades=0
+        self.entitatsTractades=0
         #entitatsPendents = 0
         self.state="empty"
         self.scheduler=scheduler
         self.entitatActiva=None
+        self.nTarongesPerRecollir = 0
         
-    def crearConnexio(self,server2,queue):
-        self.queue=queue
-        self.server=server2
+    def crearConnexio(self,recollectors):
+        self.treballadors = recollectors
+
     
     def novaMaduracio(self,time):
         #self.entitatsTractades=entitat
-        self.programarFinalServei(time)
+        self.programarRecullida(time)
 
 
-    def tractarEsdeveniment(self, event):
+    def tractarEsdeveniment(self,event):
         if (event.type == 'SIMULATION_START'):
             self.simulationStart(event)
-
+        if(event.type == "RECOLLECTOR_ARRIBA"):
+            self.arribaRecollector(event)
+        if(event.type == "DONE_RECOLLINT"):
+            self.recollectorAcaba(event)
         if (event.type == 'END_SERVICE'):
             self.processarFiServei(event)
 
@@ -38,17 +42,35 @@ class Server:
         self.entitatsTractades = 0
         self.entitatsPendents=0
 
+    def arribaRecollector(self,event):
+        t_recolleccio = self.calcularTempsRecolleccio()
+        nouEvent = Event(self, 'DONE_RECOLLINT', event.time + t_recolleccio, None)
+        eventArecollector = Event(self.recoAssignat, 'DONE_RECOLLINT', event.time + t_recolleccio, None)
+        self.scheduler.afegirEsdeveniment(nouEvent)
+        self.scheduler.afegirEsdeveniment(eventArecollector)
+        self.state == "collecting"
 
-    def programarFinalServei(self, time):
-        # que triguem a fer un servei (aleatorietat)
-        tempsServei = 10
+    def recollectorAcaba(self):
+        self.state = "empty"
+        self.recoAssignat = None
+
+    def calcularTempsRecolleccio(self):
+        return 15 #TODO posar distro
+
+    def programarRecollida(self, time):
+
         # incrementem estadistics si s'escau
         self.entitatsTractades = self.entitatsTractades + 1
-        self.entitatsPendents = self.entitatsPendents + 1
-        if(self.state=="empty"):
+        self.nTarongesPerRecollir = self.nTarongesPerRecollir + 1
+        if (recoAssignat is None):
+            for t in self.treballadors:
+                if (t.getState() == "idle" ):
+                    t.assignarRecollector(self,time)
+                    self.recoAssignat = t
+
             self.state = "readyToCollect"
-        # programació final servei, probably calgui comrpovar l'estat
-        return Event(self, 'END_SERVICE', time + tempsServei, None)
+
+
 
     def processarFiServei(self, event):
         # Registrar estadístics

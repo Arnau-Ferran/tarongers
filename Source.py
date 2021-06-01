@@ -37,7 +37,6 @@ class Source:
         #transferir entitat (es pot fer amb un esdeveniment immediat o invocant a un métode de l'element)
         #server.recullEntitat(event.time,entitat)
         self.server.novaMaduracio(event.time)
-
         # Cal programar la següent arribada
         nouEvent = self.properaArribada(event.time)
         self.scheduler.afegirEsdeveniment(nouEvent)
