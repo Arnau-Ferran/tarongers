@@ -11,12 +11,12 @@ class Server:
     recoAssignat = None
     def __init__(self, scheduler):
         # inicialitzar element de simulació
-        entitatsTractades=0
+        self.entitatsTractades=0
         #entitatsPendents = 0
         self.state="empty"
         self.scheduler=scheduler
         self.entitatActiva=None
-        nTarongesPerRecollir = 0
+        self.nTarongesPerRecollir = 0
         
     def crearConnexio(self,recollectors):
         self.treballadors = recollectors
