@@ -1,4 +1,6 @@
+from Empaquetador import Empaquetador
 from Recollector import Recollector
+from Queue import Queue
 from Server import *
 from Source import *
 from Event import *
@@ -7,7 +9,7 @@ from Event import *
 class Scheduler:
     currentTime = 0
     eventList = []
-    treballadors = 0
+    treballadors = 0    #sobra?
     ntreballadors = 0
     sources = []
     servers = []
@@ -34,6 +36,12 @@ class Scheduler:
         for source in self.sources:
             source.crearConnexio(self.servers[i])  # TODO no sé molt bé què he de fer
             i = i + 1
+
+        self.queue = Queue(self)
+        #per ara un sol empaquetador
+        self.empaquetador = Empaquetador(self, 0)
+        self.queue.crearConnexioAmbEmpaquetador(self.empaquetador)
+        self.empaquetador.crearConnexioAmbQueue(self.queue)
 
         self.simulationStart = Event(self, 'SIMULATION_START', 0, None)
         self.eventlist = []
@@ -85,7 +93,7 @@ class Scheduler:
         for x in range(0, ntreballadors-1):
             recollector = Recollector(self, x)
             self.recollectors.append(recollector)
-            #recollector.crearConnexioAmbQueue(self.queue)
+            recollector.crearConnexioAmbQueue(self.queue)
 
 
     def recollirEstadistics(self):

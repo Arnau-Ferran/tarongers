@@ -1,6 +1,6 @@
 
-import random
 from Server import *
+from numpy import random
 
 
 class Empaquetador:
@@ -32,10 +32,13 @@ class Empaquetador:
 
             #queue ja garanteix q no em passarà més del compte
             if (self.size == 50):
-                t_empaquetar = exponential(0, 90)   #TODO
+                t_empaquetar = random.exponential(0, 90)   #TODO nose. està al revés o algo.
 
                 event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
                 self.scheduler.afegirEsdeveniment(event_end_empaquetament)
+
+                event_end_empaquetament_queue = Event(self.queue, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
+                self.scheduler.afegirEsdeveniment(event_end_empaquetament_queue)
 
                 self.state = "busy"
 
