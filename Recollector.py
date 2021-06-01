@@ -1,23 +1,33 @@
 from Server import *
-import numpy as np
-import random
 
 
 class Recollector:
     my_id = None
     queue = None
-    # servers = []
+    #no necessita enllaç amb servers.
     # estadistics:
-    n_taronges_recollides = None
+    n_taronges_recollides_i_transportades = None
 
     def __init__(self, scheduler, recollector_id):
         self.scheduler = scheduler
-        # self.servers = []
         self.state = "idle"
         self.my_id = recollector_id
-        # TODO: enllaçar el queue
         # inicialitzar estadistics:
-        n_taronges_recollides = 0  # todo incrementar
+        self.n_taronges_recollides_i_transportades = 0
+
+    def crearConnexioAmbQueue(self, nou_queue):
+        self.queue = nou_queue
+
+    def assignarRecollector(self, server, time):
+        if self.state != "idle":
+            print("Recollector " + self.my_id + " got ASSIGNAR_RECOLLECTOR but it is on busy")
+
+        else:
+            t_caminar = 90  # TODO
+            event_arribo = Event(server, 'RECOLLECTOR_ARRIBA', time + t_caminar, None)
+            self.scheduler.afegirEsdeveniment(event_arribo)
+
+            self.state = "busy"
 
     def tractar_esdeveniment(self, event):
         if event.type == 'END_TRANSPORT':
@@ -25,23 +35,13 @@ class Recollector:
                 print("Recollector " + self.my_id + " got END_TRANSPORT but it is on idle")
             else:
                 self.processar_end_transport(event)
-        else:
-            if event.type == 'DONE_RECOLLINT':
-                if self.state != "busy":
-                    print("Recollector " + self.my_id + " got DONE_RECOLLINT but it is on idle")
-                    self.processarDoneRecollint(event)
-
-    def assignarRecollector(self, server, time):
-        if self.state != "idle":
-            print("Recollector " + self.my_id + " got ASSIGNAR_RECOLLECTOR but it is on busy")
-
-        t_caminar = 90  # TODO
-        event_arribo = Event(server, 'RECOLLECTOR_ARRIBA', time + t_caminar, None)
-        self.scheduler.afegirEsdeveniment(event_arribo)
-
-        self.state = "busy"
+        elif event.type == 'DONE_RECOLLINT':
+            if self.state != "busy":
+                print("Recollector " + self.my_id + " got DONE_RECOLLINT but it is on idle")
+                self.processarDoneRecollint(event)
 
     def processar_end_transport(self, event):
+        self.n_taronges_recollides_i_transportades += 1
         self.state = "idle"
 
     def processarDoneRecollint(self, event):

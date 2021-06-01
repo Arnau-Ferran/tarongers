@@ -1,3 +1,6 @@
+from Empaquetador import Empaquetador
+from Recollector import Recollector
+from Queue import Queue
 from Server import *
 from Source import *
 from Event import *
@@ -6,10 +9,11 @@ from Event import *
 class Scheduler:
     currentTime = 0
     eventList = []
-    treballadors = 0
+    treballadors = 0    #sobra?
     ntreballadors = 0
     sources = []
     servers = []
+    recollectors = []
 
     def __init__(self):
         # creació dels objectes que composen el meu model
@@ -23,7 +27,6 @@ class Scheduler:
             self.servers.append(server)
             self.sources.append(source)
 
-
         '''for server in self.servers:
                 server.crearConnexio(server2,queue) #TODO no sé molt bé què he de fer'''
 
@@ -33,6 +36,12 @@ class Scheduler:
         for source in self.sources:
             source.crearConnexio(self.servers[i])  # TODO no sé molt bé què he de fer
             i = i + 1
+
+        self.queue = Queue(self)
+        #per ara un sol empaquetador
+        self.empaquetador = Empaquetador(self, 0)
+        self.queue.crearConnexioAmbEmpaquetador(self.empaquetador)
+        self.empaquetador.crearConnexioAmbQueue(self.queue)
 
         self.simulationStart = Event(self, 'SIMULATION_START', 0, None)
         self.eventlist = []
@@ -47,7 +56,7 @@ class Scheduler:
 
         eventIterator = 0
         # bucle de simulació (condició fi simulació llista buida)
-        #while self.eventList[eventIterator]:
+        # while self.eventList[eventIterator]:
         while eventIterator < len(self.eventList):
             print("Esdeveniment número:" + str(eventIterator))
             # recuperem event simulacio
@@ -58,7 +67,7 @@ class Scheduler:
             # també podríem delegar l'acció a un altre objecte
             event.object.tractarEsdeveniment(event)
             eventIterator = eventIterator + 1
-        #recollida d'estadístics
+        # recollida d'estadístics
         self.recollirEstadistics()
 
     def afegirEsdeveniment(self, event):
@@ -73,23 +82,22 @@ class Scheduler:
                 self.sources[i].tractarEsdeveniment(event)
                 self.servers[i].tractarEsdeveniment(event)
 
-            
     def configurarModel(self):
         print("Introdueix el nombre de treballadors recol·lectors al camp de tarongers, entre 5 i 10 : ")
         num = int(input())
-        while (num < 5 or num>10):
+        while (num < 5 or num > 10):
             print("Torna a introduïr un nombre vàlid de treballadors: ")
             num = int(input())
         ntreballadors = num
 
-
-
+        for x in range(0, ntreballadors-1):
+            recollector = Recollector(self, x)
+            self.recollectors.append(recollector)
+            recollector.crearConnexioAmbQueue(self.queue)
 
 
     def recollirEstadistics(self):
         print("Estic recollint estadistics varis")
-
-
 
 
 if __name__ == "__main__":
