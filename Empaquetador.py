@@ -31,7 +31,7 @@ class Empaquetador:
             self.suma_taronges_intput = self.suma_taronges_intput + n_taronges_arribadores
 
             #queue ja garanteix q no em passarà més del compte
-            if (self.size == 50):
+            if self.size == 50:
                 t_empaquetar = random.exponential(0, 90)   #TODO nose. està al revés o algo.
 
                 event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
