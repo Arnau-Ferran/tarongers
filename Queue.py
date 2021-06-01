@@ -7,7 +7,7 @@ class Queue:
         self.scheduler = scheduler
         self.state = "empty"
         self.size = 0
-        # inicialitzar estadistics
+        # inicialitzar estadistics:
         self.sumaTarongesOutput = 0
 
     def crearConnexioAmbEmpaquetador(self, nou_empaquetador):
@@ -17,7 +17,7 @@ class Queue:
         #when arriba una nova taronja
         if event.type == 'END_TRANSPORT':
             #if self.state != "empty":
-            print("Queue got END_TRANSPORT and it is on "+self.state)
+            print("Queue got END_TRANSPORT and it is on "+self.state)       #TODO treure quan arreglem la docu
             #else:
             self.processarEndTransport(event)
 
@@ -31,7 +31,7 @@ class Queue:
         if self.empaquetador.getState == "idle":
             #li passo al empaquetador el min entre les q li falten i les q li puc passar.
             n_taronges_passo = min((50 - self.empaquetador.getSize), event.numTaronges)       # nose si el max i min funcionen. i en general aixo es pot fer mes bonic
-            self.empaquetador.arribenTaronges(n_taronges_passo)
+            self.empaquetador.arribenTaronges(n_taronges_passo, event.time)
 
             #estadístics
             self.sumaTarongesOutput = self.sumaTarongesOutput + n_taronges_passo
@@ -49,7 +49,7 @@ class Queue:
     def processarEndEmpaquetament(self, event):
         n_taronges_passo = min(50, self.size)
 
-        self.empaquetador.arribenTaronges(n_taronges_passo)    #ojo!! he fet aixo aqui.
+        self.empaquetador.arribenTaronges(n_taronges_passo, event.time)    #ojo!! he fet aixo aqui.
 
         #estadístics
         self.sumaTarongesOutput = self.sumaTarongesOutput + n_taronges_passo

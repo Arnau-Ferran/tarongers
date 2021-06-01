@@ -22,11 +22,12 @@ class Recollector:
         if self.state != "idle":
             print("Recollector " + self.my_id + " got ASSIGNAR_RECOLLECTOR but it is on busy")
 
-        t_caminar = 90  # TODO
-        event_arribo = Event(server, 'RECOLLECTOR_ARRIBA', time + t_caminar, None)
-        self.scheduler.afegirEsdeveniment(event_arribo)
+        else:
+            t_caminar = 90  # TODO
+            event_arribo = Event(server, 'RECOLLECTOR_ARRIBA', time + t_caminar, None)
+            self.scheduler.afegirEsdeveniment(event_arribo)
 
-        self.state = "busy"
+            self.state = "busy"
 
     def tractar_esdeveniment(self, event):
         if event.type == 'END_TRANSPORT':
