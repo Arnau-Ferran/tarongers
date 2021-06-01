@@ -9,7 +9,6 @@ from Event import *
 class Scheduler:
     currentTime = 0
     eventList = []
-    treballadors = 0    #sobra?
     ntreballadors = 0
     sources = []
     servers = []
@@ -94,6 +93,8 @@ class Scheduler:
             recollector = Recollector(self, x)
             self.recollectors.append(recollector)
             recollector.crearConnexioAmbQueue(self.queue)
+        for s in self.servers:
+            s.crearConnexio(self.recollectors)
 
 
     def recollirEstadistics(self):
