@@ -1,6 +1,4 @@
 from Server import *
-import numpy as np
-import random
 
 
 class Recollector:
@@ -12,15 +10,13 @@ class Recollector:
 
     def __init__(self, scheduler, recollector_id):
         self.scheduler = scheduler
-        # self.servers = []
         self.state = "idle"
         self.my_id = recollector_id
-        # TODO: enllaçar el queue
         # inicialitzar estadistics:
-        n_taronges_recollides_i_transportades = 0
+        self.n_taronges_recollides_i_transportades = 0
 
-    def crearConnexioAmbQueue(self, nouQueue):
-        self.queue = nouQueue
+    def crearConnexioAmbQueue(self, nou_queue):
+        self.queue = nou_queue
 
     def assignarRecollector(self, server, time):
         if self.state != "idle":
