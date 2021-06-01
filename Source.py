@@ -58,8 +58,7 @@ class Source:
     def calcularTempsEntreArribades(self):
         #random.triangular(low, high, mode)¶ Return a random floating point number N such that low <= N <= high and with the specified mode between those bounds.
         #The low and high bounds default to zero and one. The mode argument defaults to the midpoint between the bounds, giving a symmetric distribution.
-        ## import numpy
-        num = random.triangular(-5, 5, 0) #TODO canviar nums
+        num = random.triangular(129, 167, 148) #distribució per la maduració d'una taronja
         return num
 
 

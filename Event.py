@@ -1,7 +1,7 @@
 
 class Event:
     # creació d'un nou esdeveniment
-    def __init__(self, objecte, tipus, time, entity):
+    def __init__(self, objecte, tipus, time, numTaronges):
         # objecte que processarà l'esdeveniment
         self.object = objecte
         # tipus event

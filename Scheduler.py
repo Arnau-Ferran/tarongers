@@ -75,8 +75,15 @@ class Scheduler:
 
             
     def configurarModel(self):
-        print("Introdueix el nombre de treballadors recol·lecors al camp de tarongers: ")
-        ntreballadors = int(input())
+        print("Introdueix el nombre de treballadors recol·lectors al camp de tarongers, entre 5 i 10 : ")
+        num = int(input())
+        while (num < 5 or num>10):
+            print("Torna a introduïr un nombre vàlid de treballadors: ")
+            num = int(input())
+        ntreballadors = num
+
+
+
 
 
     def recollirEstadistics(self):
