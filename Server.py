@@ -19,9 +19,11 @@ class Server:
         self.entitatActiva=None
         self.nTarongesPerRecollir = 0
         self.my_id = id
+        self.entitatsSortida = 0
         
     def crearConnexio(self,recollectors):
         self.treballadors = recollectors
+        print(self.treballadors.getState())
 
     
     def novaMaduracio(self,time):
@@ -54,10 +56,11 @@ class Server:
     def recollectorAcaba(self):
         self.state = "empty"
         self.recoAssignat = None
+        self.entitatsSortida += self.nTarongesPerRecollir
 
     def calcularTempsRecolleccio(self):
         tempsRecollecio = random.exponential(72,10)[0] # TODO comprovar si els nums tenen sentit. potser està al revés
-        print("random.exponential(72,10) returned "+ str(tempsRecollecio))
+        #print("random.exponential(72,10) returned "+ str(tempsRecollecio))
         return tempsRecollecio
 
     def programarRecollida(self, time):
@@ -76,6 +79,7 @@ class Server:
 
 
     def recollirEstadistics(self):
-         print("Server " + str(self.my_id) +  "Número d'entitats tractades: " + str(self.entitatsTractades) )
+         print("Server " + str(self.my_id) +  " Número d'entitats tractades: " + str(self.entitatsTractades) )
+         print("Server " + str(self.my_id) +  " Número d'entitats que han sortit: " + str(self.entitatsSortida))
 
 

@@ -62,7 +62,7 @@ class Source:
         return num
 
     def recollirEstadistics(self):
-        print("Source " + str(self.my_id) +  "Número d'entitats creades: " + str(self.entitatsCreades) )
+        print("Source " + str(self.my_id) +  " Número d'entitats creades: " + str(self.entitatsCreades) )
 
 
 

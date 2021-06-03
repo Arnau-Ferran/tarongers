@@ -21,14 +21,13 @@ class Scheduler:
         self.sources = []
         self.servers = []
         # inicialitztem cadascuna de les hectàrees (processors i generadors d'entitats)
-        for x in range(0, 5):
+        for x in range(0, 6):
             server = Server(self, x)
             source = Source(self, x)
             self.servers.append(server)
             self.sources.append(source)
 
-        '''for server in self.servers:
-                server.crearConnexio(server2,queue) #TODO no sé molt bé què he de fer'''
+
 
         # self.Queue = Queue()   #monty
 
@@ -36,6 +35,7 @@ class Scheduler:
         for source in self.sources:
             source.crearConnexio(self.servers[i])  # TODO no sé molt bé què he de fer
             i = i + 1
+
 
         self.queue = Queue(self)
         #per ara un sol empaquetador
@@ -59,7 +59,7 @@ class Scheduler:
         # bucle de simulació (condició fi simulació llista buida)
         # while self.eventList[eventIterator]:
         while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventList):
-            print("Esdeveniment número:" + str(eventIterator))
+            #print("Esdeveniment número:" + str(eventIterator))
             # recuperem event simulacio
             event = self.eventList[eventIterator]
             # actualitzem el rellotge de simulacio
@@ -79,7 +79,7 @@ class Scheduler:
     def tractarEsdeveniment(self, event):
         if (event.type == "SIMULATION_START"):
             # comunicar a tots els objectes que cal preparar-se
-            print('Entro a tractar esdeveniment al scheduler')
+            #print('Entro a tractar esdeveniment al scheduler')
             for i in range(0, 5):
                 self.sources[i].tractarEsdeveniment(event)
                 self.servers[i].tractarEsdeveniment(event)
@@ -92,7 +92,7 @@ class Scheduler:
             num = int(input())'''
         ntreballadors = num
 
-        for x in range(0, ntreballadors-1):
+        for x in range(0, ntreballadors):
             recollector = Recollector(self, x)
             self.recollectors.append(recollector)
             recollector.crearConnexioAmbQueue(self.queue)
@@ -106,8 +106,8 @@ class Scheduler:
             s.recollirEstadistics()
         for se in self.servers:
             se.recollirEstadistics()
-        for r in self.recollectors:
-            r.recollirEstadistics()
+        '''for r in self.recollectors:
+            r.recollirEstadistics()'''
         self.queue.recollirEstadistics()
         self.empaquetador.recollirEstadistics()
 
