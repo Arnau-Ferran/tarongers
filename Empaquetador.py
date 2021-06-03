@@ -32,8 +32,8 @@ class Empaquetador:
 
             #queue ja garanteix q no em passarà més del compte
             if self.size == 50:
-                t_empaquetar = random.exponential(0.5, 90)   #TODO comprovar si els nums tenen sentit. potser està al revés
-                print("random.exponential(0.5, 90) returned "+ t_empaquetar)
+                t_empaquetar = random.exponential(90,0.5)[0]   #TODO comprovar si els nums tenen sentit. potser està al revés
+                print("random.exponential(90,0.5) returned "+ t_empaquetar)
 
                 event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
                 self.scheduler.afegirEsdeveniment(event_end_empaquetament)
@@ -60,5 +60,5 @@ class Empaquetador:
         self.state="idle"
 
     def recollirEstadistics(self):
-        print("Empaquetador: suma taronges input: "+self.suma_taronges_intput)
-        print("Empaquetador: NUMERO DE CAIXES ENVIADES: " + self.n_caixes_enviades)
+        print("Empaquetador: suma taronges input: "+str(self.suma_taronges_intput))
+        print("Empaquetador: NUMERO DE CAIXES ENVIADES: " + str(self.n_caixes_enviades))

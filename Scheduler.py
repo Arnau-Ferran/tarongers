@@ -58,7 +58,7 @@ class Scheduler:
 
         # bucle de simulació (condició fi simulació llista buida)
         # while self.eventList[eventIterator]:
-        while self.currentTime<self.tempsFiSimulacio and Iterator < len(self.eventList) :
+        while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventList):
             print("Esdeveniment número:" + str(eventIterator))
             # recuperem event simulacio
             event = self.eventList[eventIterator]
@@ -87,9 +87,9 @@ class Scheduler:
     def configurarModel(self):
         print("Introdueix el nombre de treballadors recol·lectors al camp de tarongers, entre 5 i 10 : ")
         num = int(input())
-        while (num < 5 or num > 10):
+        ''' while (num < 5 or num > 10):
             print("Torna a introduïr un nombre vàlid de treballadors: ")
-            num = int(input())
+            num = int(input())'''
         ntreballadors = num
 
         for x in range(0, ntreballadors-1):

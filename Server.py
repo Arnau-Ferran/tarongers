@@ -26,7 +26,7 @@ class Server:
     
     def novaMaduracio(self,time):
         #self.entitatsTractades=entitat
-        self.programarRecullida(time)
+        self.programarRecollida(time)
 
 
     def tractarEsdeveniment(self,event):
@@ -35,7 +35,7 @@ class Server:
         if(event.type == "RECOLLECTOR_ARRIBA"):
             self.arribaRecollector(event)
         if(event.type == "DONE_RECOLLINT"):
-            self.recollectorAcaba(event)
+            self.recollectorAcaba()
 
 
     def simulationStart(self, event):
@@ -56,8 +56,8 @@ class Server:
         self.recoAssignat = None
 
     def calcularTempsRecolleccio(self):
-        tempsRecollecio = random.exponential(10, 72) # TODO comprovar si els nums tenen sentit. potser està al revés
-        print("random.exponential(10, 72) returned "+ tempsRecollecio)
+        tempsRecollecio = random.exponential(72,10)[0] # TODO comprovar si els nums tenen sentit. potser està al revés
+        print("random.exponential(72,10) returned "+ str(tempsRecollecio))
         return tempsRecollecio
 
     def programarRecollida(self, time):
@@ -76,6 +76,6 @@ class Server:
 
 
     def recollirEstadistics(self):
-         print("Server " + self.my_id +  "Número d'entitats tractades: " + self.entitatsTractades )
+         print("Server " + str(self.my_id) +  "Número d'entitats tractades: " + str(self.entitatsTractades) )
 
 

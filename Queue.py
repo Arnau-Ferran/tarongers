@@ -66,4 +66,4 @@ class Queue:
         return self.state
 
     def recollirEstadistics(self):
-        print("Queue: suma taronges output: "+self.sumaTarongesOutput)
+        print("Queue: suma taronges output: "+ str(self.sumaTarongesOutput))

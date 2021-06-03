@@ -61,8 +61,8 @@ class Source:
         num = random.triangular(129, 167, 148) #distribució per la maduració d'una taronja
         return num
 
-    def recollirEstadistcis(self) {
-    print("Source " + self.my_id +  "Número d'entitats creades: " + self.entitatsCreades )
-    }
+    def recollirEstadistics(self):
+        print("Source " + str(self.my_id) +  "Número d'entitats creades: " + str(self.entitatsCreades) )
+
 
 

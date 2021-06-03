@@ -29,7 +29,7 @@ class Recollector:
 
             self.state = "busy"
 
-    def tractar_esdeveniment(self, event):
+    def tractarEsdeveniment(self, event):
         if event.type == 'END_TRANSPORT':
             if self.state != "busy":
                 print("Recollector " + self.my_id + " got END_TRANSPORT but it is on idle")
@@ -56,8 +56,8 @@ class Recollector:
 
         self.state = "busy"
 
-    def get_state(self):
+    def getState(self):
         return self.state
 
     def recollirEstadistics(self):
-        print("Recollector "+ self.my_id+": num de taronges recollides i transportades: "+self.n_taronges_recollides_i_transportades)
+        print("Recollector "+ str(self.my_id) +": num de taronges recollides i transportades: "+ str(self.n_taronges_recollides_i_transportades))
