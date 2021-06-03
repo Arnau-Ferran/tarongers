@@ -9,10 +9,11 @@ import random
 class Source:
     server = None
     entitatsCreades = 0
-    def __init__(self, scheduler):
+    def __init__(self, scheduler, id):
         # inicialitzar element de simulació
-        entitatsCreades = 0
+        self.entitatsCreades = 0
         self.scheduler = scheduler
+        self.my_id = id
 
     def crearConnexio(self, server):
         self.server = server
@@ -59,5 +60,9 @@ class Source:
         #The low and high bounds default to zero and one. The mode argument defaults to the midpoint between the bounds, giving a symmetric distribution.
         num = random.triangular(129, 167, 148) #distribució per la maduració d'una taronja
         return num
+
+    def recollirEstadistcis(self) {
+    print("Source " + self.my_id +  "Número d'entitats creades: " + self.entitatsCreades )
+    }
 
 
