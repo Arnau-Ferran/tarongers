@@ -4,6 +4,7 @@
 
 from Server import *
 from Event import *
+from numpy import random
 
 
 class Server:
@@ -55,16 +56,18 @@ class Server:
         self.recoAssignat = None
 
     def calcularTempsRecolleccio(self):
-        return 15 #TODO posar distro
+        tempsRecollecio = random.exponential(10, 72) # TODO comprovar si els nums tenen sentit. potser està al revés
+        print("random.exponential(10, 72) returned "+ tempsRecollecio)
+        return tempsRecollecio
 
     def programarRecollida(self, time):
 
         # incrementem estadistics si s'escau
         self.entitatsTractades = self.entitatsTractades + 1
         self.nTarongesPerRecollir = self.nTarongesPerRecollir + 1
-        if (recoAssignat is None):
+        if self.recoAssignat is None:
             for t in self.treballadors:
-                if (t.getState() == "idle" ):
+                if t.getState() == "idle":
                     t.assignarRecollector(self,time)
                     self.recoAssignat = t
 

@@ -32,7 +32,8 @@ class Empaquetador:
 
             #queue ja garanteix q no em passarà més del compte
             if self.size == 50:
-                t_empaquetar = random.exponential(0, 90)   #TODO nose. està al revés o algo.
+                t_empaquetar = random.exponential(0.5, 90)   #TODO comprovar si els nums tenen sentit. potser està al revés
+                print("random.exponential(0.5, 90) returned "+ t_empaquetar)
 
                 event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
                 self.scheduler.afegirEsdeveniment(event_end_empaquetament)
