@@ -10,7 +10,7 @@ from numpy import random
 class Server:
     treballadors = []
     recoAssignat = None
-    def __init__(self, scheduler):
+    def __init__(self, scheduler, id):
         # inicialitzar element de simulació
         self.entitatsTractades=0
         #entitatsPendents = 0
@@ -18,6 +18,7 @@ class Server:
         self.scheduler=scheduler
         self.entitatActiva=None
         self.nTarongesPerRecollir = 0
+        self.my_id = id
         
     def crearConnexio(self,recollectors):
         self.treballadors = recollectors

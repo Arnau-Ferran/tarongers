@@ -22,8 +22,8 @@ class Scheduler:
         self.servers = []
         # inicialitztem cadascuna de les hectàrees (processors i generadors d'entitats)
         for x in range(0, 5):
-            server = Server(self)
-            source = Source(self)
+            server = Server(self, x)
+            source = Source(self, x)
             self.servers.append(server)
             self.sources.append(source)
 
