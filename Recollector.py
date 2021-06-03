@@ -23,7 +23,7 @@ class Recollector:
             print("Recollector " + self.my_id + " got ASSIGNAR_RECOLLECTOR but it is on busy")
 
         else:
-            t_caminar = 90  # TODO
+            t_caminar = 90
             event_arribo = Event(server, 'RECOLLECTOR_ARRIBA', time + t_caminar, None)
             self.scheduler.afegirEsdeveniment(event_arribo)
 
@@ -47,8 +47,11 @@ class Recollector:
         self.n_taronges_recollides_i_transportades += event.numTaronges
         self.state = "idle"
 
+        #traces
+        print("Recollector "+str(self.my_id)+" acaba de transportar taronges fins l'Empaquetador")
+
     def processarDoneRecollint(self, event):
-        t_transportar = 300  # TODO
+        t_transportar = 300
 
         event_transportar = Event(self, 'END_TRANSPORT', event.time + t_transportar, event.numTaronges)
         self.scheduler.afegirEsdeveniment(event_transportar)

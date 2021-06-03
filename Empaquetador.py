@@ -32,7 +32,7 @@ class Empaquetador:
 
             #queue ja garanteix q no em passarà més del compte
             if self.size == 50:
-                t_empaquetar = random.exponential(90, 1)   #TODO comprovar si els nums tenen sentit. potser està al revés
+                t_empaquetar = random.exponential(90, 1)
                 #print("random.exponential(90,0.5) returned "+ str(t_empaquetar))
 
                 event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
@@ -54,6 +54,9 @@ class Empaquetador:
 
     def processarEndEmpaquetament(self, event):
         self.n_caixes_enviades = self.n_caixes_enviades + 1
+
+        #traces
+        print("Empaquetador envia caixa "+str(self.n_caixes_enviades))
 
         self.size = 0
 

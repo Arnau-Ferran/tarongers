@@ -33,7 +33,7 @@ class Scheduler:
 
         i = 0
         for source in self.sources:
-            source.crearConnexio(self.servers[i])  # TODO no sé molt bé què he de fer
+            source.crearConnexio(self.servers[i])
             i = i + 1
 
 

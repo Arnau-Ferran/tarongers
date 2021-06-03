@@ -45,6 +45,9 @@ class Server:
         self.entitatsPendents=0
 
     def arribaRecollector(self,event):
+        #traces
+        print("Arriba un Recollector al Server "+str(self.my_id)+".\nRecollint taronges... (Server "+str(self.my_id)+")")
+
         t_recolleccio = self.calcularTempsRecolleccio()
         nouEvent = Event(self, 'DONE_RECOLLINT', event.time + t_recolleccio, self.nTarongesPerRecollir)
         eventArecollector = Event(self.recoAssignat, 'DONE_RECOLLINT', event.time + t_recolleccio, self.nTarongesPerRecollir)
@@ -60,7 +63,7 @@ class Server:
         self.nTarongesPerRecollir = 0
 
     def calcularTempsRecolleccio(self):
-        tempsRecollecio = random.exponential(72,1) # TODO comprovar si els nums tenen sentit. potser està al revés. naaah estan be
+        tempsRecollecio = random.exponential(72,1)
         #print("random.exponential(72,10) returned "+ str(tempsRecollecio))
         return tempsRecollecio
 
