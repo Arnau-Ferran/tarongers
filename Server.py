@@ -36,8 +36,7 @@ class Server:
             self.arribaRecollector(event)
         if(event.type == "DONE_RECOLLINT"):
             self.recollectorAcaba(event)
-        if (event.type == 'END_SERVICE'):
-            self.processarFiServei(event)
+
 
     def simulationStart(self, event):
         self.state = "idle"
@@ -76,17 +75,7 @@ class Server:
 
 
 
-    def processarFiServei(self, event):
-        # Registrar estadístics
-        self.entitatsTractades = self.entitatsTractades + 1
-        # Mirar si es pot transferir a on per toqui
-        if (self.server.estat == "idle"):
-            # transferir entitat (es pot fer amb un esdeveniment immediat o invocant a un métode de l'element)
-            self.server.recullEntitat(event.time, event.entitat)
-        else:
-            if (self.queue.estat == "idle"):
-                self.queue.recullEntitat(event.time, event.entitat)
-            # ...
-        self.estat = "idle"
+    def recollirEstadistics(self):
+         print("Server " + self.my_id +  "Número d'entitats tractades: " + self.entitatsTractades )
 
-    # ...
+
