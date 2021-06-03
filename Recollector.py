@@ -48,7 +48,7 @@ class Recollector:
         self.state = "idle"
 
     def processarDoneRecollint(self, event):
-        t_transportar = 500  # TODO
+        t_transportar = 300  # TODO
 
         event_transportar = Event(self, 'END_TRANSPORT', event.time + t_transportar, event.numTaronges)
         self.scheduler.afegirEsdeveniment(event_transportar)
