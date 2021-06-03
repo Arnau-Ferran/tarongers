@@ -41,6 +41,7 @@ class Recollector:
                 self.processarDoneRecollint(event)
 
     def processar_end_transport(self, event):
+        #actualitzar estadistics
         self.n_taronges_recollides_i_transportades += 1
         self.state = "idle"
 
@@ -57,3 +58,6 @@ class Recollector:
 
     def get_state(self):
         return self.state
+
+    def recollirEstadistics(self):
+        print("Recollector "+ self.my_id+": num de taronges recollides i transportades: "+self.n_taronges_recollides_i_transportades)

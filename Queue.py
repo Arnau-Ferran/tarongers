@@ -2,6 +2,8 @@
 class Queue:
     empaquetador = None
     size = None
+    # estadistics:
+    sumaTarongesOutput = None
 
     def __init__(self, scheduler):
         self.scheduler = scheduler
@@ -62,3 +64,6 @@ class Queue:
 
     def getState(self):
         return self.state
+
+    def recollirEstadistics(self):
+        print("Queue: suma taronges output: "+self.sumaTarongesOutput)
