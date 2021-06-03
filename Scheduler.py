@@ -85,7 +85,7 @@ class Scheduler:
         if (event.type == "SIMULATION_START"):
             # comunicar a tots els objectes que cal preparar-se
             #print('Entro a tractar esdeveniment al scheduler')
-            for i in range(0, 5):
+            for i in range(0, 6):
                 self.sources[i].tractarEsdeveniment(event)
                 self.servers[i].tractarEsdeveniment(event)
 

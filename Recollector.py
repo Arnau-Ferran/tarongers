@@ -37,7 +37,6 @@ class Recollector:
                 self.processar_end_transport(event)
         else:
             if event.type == 'DONE_RECOLLINT':
-                #print("Recollector " + str(self.my_id) + " rep DONE_RECOLLINT")
                 if self.state != "busy":
                     print("Recollector " + str(self.my_id) + " got DONE_RECOLLINT but it is on idle")
                 else:
@@ -49,7 +48,6 @@ class Recollector:
         self.state = "idle"
 
     def processarDoneRecollint(self, event):
-        #print("Recollector " + str(self.my_id) + " envia END_TRANSPORT")
         t_transportar = 500  # TODO
 
         event_transportar = Event(self, 'END_TRANSPORT', event.time + t_transportar, event.numTaronges)
