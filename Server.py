@@ -23,7 +23,6 @@ class Server:
         
     def crearConnexio(self,recollectors):
         self.treballadors = recollectors
-        print(self.treballadors.getState())
 
     
     def novaMaduracio(self,time):
@@ -32,11 +31,11 @@ class Server:
 
 
     def tractarEsdeveniment(self,event):
-        if (event.type == 'SIMULATION_START'):
+        if event.type == 'SIMULATION_START':
             self.simulationStart(event)
-        if(event.type == "RECOLLECTOR_ARRIBA"):
+        if event.type == "RECOLLECTOR_ARRIBA":
             self.arribaRecollector(event)
-        if(event.type == "DONE_RECOLLINT"):
+        if event.type == "DONE_RECOLLINT":
             self.recollectorAcaba()
 
 
@@ -47,19 +46,21 @@ class Server:
 
     def arribaRecollector(self,event):
         t_recolleccio = self.calcularTempsRecolleccio()
-        nouEvent = Event(self, 'DONE_RECOLLINT', event.time + t_recolleccio, None)
-        eventArecollector = Event(self.recoAssignat, 'DONE_RECOLLINT', event.time + t_recolleccio, None)
+        nouEvent = Event(self, 'DONE_RECOLLINT', event.time + t_recolleccio, self.nTarongesPerRecollir)
+        eventArecollector = Event(self.recoAssignat, 'DONE_RECOLLINT', event.time + t_recolleccio, self.nTarongesPerRecollir)
         self.scheduler.afegirEsdeveniment(nouEvent)
         self.scheduler.afegirEsdeveniment(eventArecollector)
-        self.state == "collecting"
+        self.state = "collecting"
 
     def recollectorAcaba(self):
+        #print("Server " + str(self.my_id) + "entra a recollectorAcaba")
         self.state = "empty"
         self.recoAssignat = None
         self.entitatsSortida += self.nTarongesPerRecollir
+        self.nTarongesPerRecollir = 0
 
     def calcularTempsRecolleccio(self):
-        tempsRecollecio = random.exponential(72,10)[0] # TODO comprovar si els nums tenen sentit. potser està al revés
+        tempsRecollecio = random.exponential(72,1) # TODO comprovar si els nums tenen sentit. potser està al revés. naaah estan be
         #print("random.exponential(72,10) returned "+ str(tempsRecollecio))
         return tempsRecollecio
 
@@ -69,10 +70,15 @@ class Server:
         self.entitatsTractades = self.entitatsTractades + 1
         self.nTarongesPerRecollir = self.nTarongesPerRecollir + 1
         if self.recoAssignat is None:
-            for t in self.treballadors:
+            i = 0
+            found = False
+            while i<len(self.treballadors) and not found:
+                t = self.treballadors[i]
                 if t.getState() == "idle":
                     t.assignarRecollector(self,time)
                     self.recoAssignat = t
+                    found = True
+                i+=1
 
             self.state = "readyToCollect"
 

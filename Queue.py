@@ -4,6 +4,7 @@ class Queue:
     size = None
     # estadistics:
     sumaTarongesOutput = None
+    sumaTarongesInput = None
 
     def __init__(self, scheduler):
         self.scheduler = scheduler
@@ -11,11 +12,12 @@ class Queue:
         self.size = 0
         # inicialitzar estadistics:
         self.sumaTarongesOutput = 0
+        self.sumaTarongesInput = 0
 
     def crearConnexioAmbEmpaquetador(self, nou_empaquetador):
         self.empaquetador = nou_empaquetador
 
-    def tractar_esdeveniment(self, event):
+    def tractarEsdeveniment(self, event):
         #when arriba una nova taronja
         if event.type == 'END_TRANSPORT':
             self.processarEndTransport(event)
@@ -28,17 +30,20 @@ class Queue:
                 self.processarEndEmpaquetament(event)
 
     def processarEndTransport(self, event):
+        #estadistic:
+        self.sumaTarongesInput += event.numTaronges
+
         #si li puc passar directament a l'empaquetador
-        if self.empaquetador.getState == "idle":    #aixo implica que la cua està buida
+        if self.empaquetador.getState() == "idle":    #aixo implica que la cua està buida
             #li passo al empaquetador el min entre les q li falten i les q li puc passar.
-            n_taronges_passo = min((50 - self.empaquetador.getSize), event.numTaronges)       # nose si el max i min funcionen. i en general aixo es pot fer mes bonic
+            n_taronges_passo = min((50 - self.empaquetador.getSize()), event.numTaronges)       # nose si el max i min funcionen. i en general aixo es pot fer mes bonic
             self.empaquetador.arribenTaronges(n_taronges_passo, event.time)
 
             #estadístics
             self.sumaTarongesOutput = self.sumaTarongesOutput + n_taronges_passo
 
             #després de passar endevant totes les q puc, les que queden se'm sumen. son o 0 o les q m'ha arribat - les q he passat endavant.
-            self.size = self.size + max(0, event.numTaronges-(50 - self.empaquetador.getSize))
+            self.size = self.size + max(0, event.numTaronges-(50 - self.empaquetador.getSize()))
             if self.size == 0:
                 self.state="empty"
             else:
@@ -66,4 +71,5 @@ class Queue:
         return self.state
 
     def recollirEstadistics(self):
+        print("Queue: suma taronges INput: "+str(self.sumaTarongesInput))
         print("Queue: suma taronges output: "+ str(self.sumaTarongesOutput))

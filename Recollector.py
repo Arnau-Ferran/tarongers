@@ -23,7 +23,7 @@ class Recollector:
             print("Recollector " + self.my_id + " got ASSIGNAR_RECOLLECTOR but it is on busy")
 
         else:
-            t_caminar = 1  # TODO
+            t_caminar = 90  # TODO
             event_arribo = Event(server, 'RECOLLECTOR_ARRIBA', time + t_caminar, None)
             self.scheduler.afegirEsdeveniment(event_arribo)
 
@@ -35,23 +35,27 @@ class Recollector:
                 print("Recollector " + self.my_id + " got END_TRANSPORT but it is on idle")
             else:
                 self.processar_end_transport(event)
-        elif event.type == 'DONE_RECOLLINT':
-            if self.state != "busy":
-                print("Recollector " + self.my_id + " got DONE_RECOLLINT but it is on idle")
-                self.processarDoneRecollint(event)
+        else:
+            if event.type == 'DONE_RECOLLINT':
+                #print("Recollector " + str(self.my_id) + " rep DONE_RECOLLINT")
+                if self.state != "busy":
+                    print("Recollector " + str(self.my_id) + " got DONE_RECOLLINT but it is on idle")
+                else:
+                    self.processarDoneRecollint(event)
 
     def processar_end_transport(self, event):
         #actualitzar estadistics
-        self.n_taronges_recollides_i_transportades += 1
+        self.n_taronges_recollides_i_transportades += event.numTaronges
         self.state = "idle"
 
     def processarDoneRecollint(self, event):
-        t_transportar = 1  # TODO
+        #print("Recollector " + str(self.my_id) + " envia END_TRANSPORT")
+        t_transportar = 500  # TODO
 
-        event_transportar = Event(self, 'END_TRANSPORT', event.time + t_transportar, None)
+        event_transportar = Event(self, 'END_TRANSPORT', event.time + t_transportar, event.numTaronges)
         self.scheduler.afegirEsdeveniment(event_transportar)
 
-        event_transportar_queue = Event(self.queue, 'END_TRANSPORT', event.time + t_transportar, None)
+        event_transportar_queue = Event(self.queue, 'END_TRANSPORT', event.time + t_transportar, event.numTaronges)
         self.scheduler.afegirEsdeveniment(event_transportar_queue)
 
         self.state = "busy"

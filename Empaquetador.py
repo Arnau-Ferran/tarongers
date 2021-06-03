@@ -32,8 +32,8 @@ class Empaquetador:
 
             #queue ja garanteix q no em passarà més del compte
             if self.size == 50:
-                t_empaquetar = random.exponential(90,0.5)[0]   #TODO comprovar si els nums tenen sentit. potser està al revés
-                print("random.exponential(90,0.5) returned "+ t_empaquetar)
+                t_empaquetar = random.exponential(90, 1)   #TODO comprovar si els nums tenen sentit. potser està al revés
+                #print("random.exponential(90,0.5) returned "+ str(t_empaquetar))
 
                 event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
                 self.scheduler.afegirEsdeveniment(event_end_empaquetament)
@@ -45,7 +45,7 @@ class Empaquetador:
 
             #(else em quedo a idle)
 
-    def tractar_esdeveniment(self, event):
+    def tractarEsdeveniment(self, event):
         if event.type == 'END_EMPAQUETAMENT':
             if self.state != "busy":
                 print("Empaquetador " + self.my_id + " got END_EMPAQUETAMENT but it is on idle")
@@ -58,6 +58,12 @@ class Empaquetador:
         self.size = 0
 
         self.state="idle"
+
+    def getSize(self):
+        return self.size
+
+    def getState(self):
+        return self.state
 
     def recollirEstadistics(self):
         print("Empaquetador: suma taronges input: "+str(self.suma_taronges_intput))

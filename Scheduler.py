@@ -75,6 +75,11 @@ class Scheduler:
     def afegirEsdeveniment(self, event):
         # inserir esdeveniment de forma ordenada
         self.eventList.append(event)
+        '''if event.type == "DONE_RECOLLINT":
+            print("s'afegeix esdeveniment de tipus DONE_RECOLLINT. numTaronges = "+str(event.numTaronges)+". object(receptor) = "+str(event.object))
+        if event.type == "END_TRANSPORT":
+            print("s'afegeix esdeveniment de tipus END_TRANSPORT")  #no salta mai'''
+
 
     def tractarEsdeveniment(self, event):
         if (event.type == "SIMULATION_START"):
