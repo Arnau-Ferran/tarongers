@@ -16,19 +16,18 @@ class Queue:
     def tractar_esdeveniment(self, event):
         #when arriba una nova taronja
         if event.type == 'END_TRANSPORT':
-            #if self.state != "empty":
-            print("Queue got END_TRANSPORT and it is on "+self.state)       #TODO treure quan arreglem la docu
-            #else:
             self.processarEndTransport(event)
 
         #when l'empaquetador acaba
         elif event.type == 'END_EMPAQUETAMENT':
-            print("Queue got END_EMPAQUETAMENT and it is on "+self.state)
-            self.processarEndEmpaquetament(event)
+            if self.state != "notempty":
+                print("Queue got END_EMPAQUETAMENT and it is on empty. it's not an error but it's useless")
+            else:
+                self.processarEndEmpaquetament(event)
 
     def processarEndTransport(self, event):
         #si li puc passar directament a l'empaquetador
-        if self.empaquetador.getState == "idle":
+        if self.empaquetador.getState == "idle":    #aixo implica que la cua està buida
             #li passo al empaquetador el min entre les q li falten i les q li puc passar.
             n_taronges_passo = min((50 - self.empaquetador.getSize), event.numTaronges)       # nose si el max i min funcionen. i en general aixo es pot fer mes bonic
             self.empaquetador.arribenTaronges(n_taronges_passo, event.time)
@@ -42,7 +41,7 @@ class Queue:
                 self.state="empty"
             else:
                 self.state ="notempty"
-        else:
+        else:       # not empty sempre va aquí
             self.size = self.size + event.numTaronges
             self.state = "notempty"
 
