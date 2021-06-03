@@ -13,6 +13,7 @@ class Scheduler:
     sources = []
     servers = []
     recollectors = []
+    tempsFiSimulacio=432000
 
     def __init__(self):
         # creació dels objectes que composen el meu model
@@ -54,18 +55,20 @@ class Scheduler:
         self.currentTime = 0
 
         eventIterator = 0
+
         # bucle de simulació (condició fi simulació llista buida)
         # while self.eventList[eventIterator]:
-        while eventIterator < len(self.eventList):
+        while self.currentTime<self.tempsFiSimulacio and Iterator < len(self.eventList) :
             print("Esdeveniment número:" + str(eventIterator))
             # recuperem event simulacio
             event = self.eventList[eventIterator]
             # actualitzem el rellotge de simulacio
             self.currentTime = event.time
-            # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
-            # també podríem delegar l'acció a un altre objecte
-            event.object.tractarEsdeveniment(event)
-            eventIterator = eventIterator + 1
+            if self.currentTime<self.tempsFiSimulacio:
+                # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
+                # també podríem delegar l'acció a un altre objecte
+                event.object.tractarEsdeveniment(event)
+                eventIterator = eventIterator + 1
         # recollida d'estadístics
         self.recollirEstadistics()
 
@@ -98,7 +101,16 @@ class Scheduler:
 
 
     def recollirEstadistics(self):
-        print("Estic recollint estadistics varis")
+        print("A continuació us mostrarem els estadístics recollits per cadascun dels components del model: ")
+        for s in self.sources:
+            s.recollirEstadistics()
+        for se in self.servers:
+            se.recollirEstadistics()
+        for r in self.recollectors:
+            r.recollirEstadistics()
+        self.queue.recollirEstadistics()
+        self.empaquetador.recollirEstadistics()
+
 
 
 if __name__ == "__main__":
