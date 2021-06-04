@@ -19,7 +19,7 @@ class Scheduler:
     enableTraces = True
 
     def __init__(self):
-        self.enableTraces = False
+        self.enableTraces = True
 
         # creació dels objectes que composen el meu model
 
@@ -37,7 +37,6 @@ class Scheduler:
             source.crearConnexio(self.servers[i])
             i = i + 1
 
-
         self.queue = Queue(self)
         #per ara un sol empaquetador
         self.empaquetador = Empaquetador(self, 0)
@@ -46,7 +45,6 @@ class Scheduler:
 
         self.simulationStart = Event(self, 'SIMULATION_START', 0, None)
         self.eventlist = []
-        #self.eventList.append(self.simulationStart)
         self.eventDict[0] = self.simulationStart
 
     def sortTime(self, event):
@@ -63,17 +61,14 @@ class Scheduler:
         eventIterator = 0
 
         # bucle de simulació (condició fi simulació llista buida)
-        # while self.eventList[eventIterator]:
-        while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventDict):   #len(self.eventList):
+        while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventDict):
             #print("Esdeveniment número:" + str(eventIterator))
 
             # recuperem event simulacio
-            #event = self.eventList[eventIterator]
             event = self.eventDict.peekitem(index=eventIterator)[1]
-            #print("eventDict.peekitem(index=eventIterator)[1] = "+str(self.eventDict.peekitem(index=eventIterator)[1]))
             # actualitzem el rellotge de simulacio
             self.currentTime = event.time
-            print("currentTime = "+str(self.currentTime))
+            #print("currentTime = "+str(self.currentTime))
             if self.currentTime<self.tempsFiSimulacio:
                 # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
                 # també podríem delegar l'acció a un altre objecte
@@ -84,17 +79,12 @@ class Scheduler:
 
     def afegirEsdeveniment(self, event):
         # inserir esdeveniment de forma ordenada
-        if self.eventDict.__contains__(event.time):
+
+        if self.eventDict.__contains__(event.time): #si dona la casualitat que el temps és repetit, tornem a intentar amb un nombre negligiblement diferent
             event.time += 0.0000001
             self.afegirEsdeveniment(event)
-            #self.eventDict[event.time+0.0000000000000001] = event
         else:
             self.eventDict[event.time] = event
-        #self.eventList.append(event)
-
-        #ordenar la eventList segons el time. no tenim en compte prioritat.
-        #self.eventList.sort(key=self.sortTime)
-
 
     def tractarEsdeveniment(self, event):
         if (event.type == "SIMULATION_START"):
@@ -119,7 +109,6 @@ class Scheduler:
         for s in self.servers:
             s.crearConnexio(self.recollectors)
 
-
     def recollirEstadistics(self):
         print("A continuació us mostrarem els estadístics recollits per cadascun dels components del model: ")
         for s in self.sources:
@@ -130,7 +119,6 @@ class Scheduler:
             r.recollirEstadistics()'''
         self.queue.recollirEstadistics()
         self.empaquetador.recollirEstadistics()
-
 
 
 if __name__ == "__main__":

@@ -57,7 +57,6 @@ class Server:
         self.state = "collecting"
 
     def recollectorAcaba(self):
-        #print("Server " + str(self.my_id) + "entra a recollectorAcaba")
         self.state = "empty"
         self.recoAssignat = None
         self.entitatsSortida += self.nTarongesPerRecollir
@@ -85,8 +84,6 @@ class Server:
                 i+=1
 
             self.state = "readyToCollect"
-
-
 
     def recollirEstadistics(self):
          print("Server " + str(self.my_id) +  " Número d'entitats tractades: " + str(self.entitatsTractades) )

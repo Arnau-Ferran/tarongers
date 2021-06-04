@@ -14,7 +14,7 @@ class Empaquetador:
         self.state = "idle"
         self.my_id = empaquetador_id
         self.size = 0
-        # estadistics # n_caixes_enviades és molt important => potser hauria de estar en una altra classe a lo global o algo aixi ns
+        # estadistics
         self.suma_taronges_intput = 0  #probably useless
         self.n_caixes_enviades = 0
 
