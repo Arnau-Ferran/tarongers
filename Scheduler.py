@@ -14,8 +14,11 @@ class Scheduler:
     servers = []
     recollectors = []
     tempsFiSimulacio=604800
+    enableTraces = True
 
     def __init__(self):
+        self.enableTraces = False
+
         # creació dels objectes que composen el meu model
 
         self.sources = []
@@ -26,10 +29,6 @@ class Scheduler:
             source = Source(self, x)
             self.servers.append(server)
             self.sources.append(source)
-
-
-
-        # self.Queue = Queue()   #monty
 
         i = 0
         for source in self.sources:
@@ -47,6 +46,10 @@ class Scheduler:
         self.eventlist = []
         self.eventList.append(self.simulationStart)
 
+    def sortTime(self, event):
+        return event.time
+
+
     def run(self):
         # configurar el model per consola, arxiu de text...
         self.configurarModel()
@@ -60,10 +63,12 @@ class Scheduler:
         # while self.eventList[eventIterator]:
         while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventList):
             #print("Esdeveniment número:" + str(eventIterator))
+
             # recuperem event simulacio
             event = self.eventList[eventIterator]
             # actualitzem el rellotge de simulacio
             self.currentTime = event.time
+            print("currentTime = "+str(self.currentTime))
             if self.currentTime<self.tempsFiSimulacio:
                 # deleguem l'acció a realitzar de l'esdeveniment a l'objecte que l'ha generat
                 # també podríem delegar l'acció a un altre objecte
@@ -79,6 +84,9 @@ class Scheduler:
             print("s'afegeix esdeveniment de tipus DONE_RECOLLINT. numTaronges = "+str(event.numTaronges)+". object(receptor) = "+str(event.object))
         if event.type == "END_TRANSPORT":
             print("s'afegeix esdeveniment de tipus END_TRANSPORT")  #no salta mai'''
+
+        #ordenar la eventList segons el time. no tenim en compte prioritat.
+        self.eventList.sort(key=self.sortTime)
 
 
     def tractarEsdeveniment(self, event):

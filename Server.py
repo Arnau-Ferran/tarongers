@@ -46,7 +46,8 @@ class Server:
 
     def arribaRecollector(self,event):
         #traces
-        print("Arriba un Recollector al Server "+str(self.my_id)+".\nRecollint taronges... (Server "+str(self.my_id)+")")
+        if self.scheduler.enableTraces:
+            print("Arriba un Recollector al Server "+str(self.my_id)+".\nRecollint taronges... (Server "+str(self.my_id)+")")
 
         t_recolleccio = self.calcularTempsRecolleccio()
         nouEvent = Event(self, 'DONE_RECOLLINT', event.time + t_recolleccio, self.nTarongesPerRecollir)
@@ -64,8 +65,8 @@ class Server:
 
     def calcularTempsRecolleccio(self):
         tempsRecollecio = random.exponential(72,1)
-        #print("random.exponential(72,10) returned "+ str(tempsRecollecio))
-        return tempsRecollecio
+        #print("random.exponential(72,10)[0] is "+ str(tempsRecollecio[0]))
+        return tempsRecollecio[0]
 
     def programarRecollida(self, time):
 

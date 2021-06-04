@@ -48,7 +48,8 @@ class Recollector:
         self.state = "idle"
 
         #traces
-        print("Recollector "+str(self.my_id)+" acaba de transportar taronges fins l'Empaquetador")
+        if self.scheduler.enableTraces:
+            print("Recollector "+str(self.my_id)+" acaba de transportar taronges fins l'Empaquetador")
 
     def processarDoneRecollint(self, event):
         t_transportar = 300

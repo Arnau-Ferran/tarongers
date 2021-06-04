@@ -33,12 +33,12 @@ class Empaquetador:
             #queue ja garanteix q no em passarà més del compte
             if self.size == 50:
                 t_empaquetar = random.exponential(90, 1)
-                #print("random.exponential(90,0.5) returned "+ str(t_empaquetar))
+                #print("random.exponential(90,1)[0] is "+ str(t_empaquetar[0]))
 
-                event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
+                event_end_empaquetament = Event(self, 'END_EMPAQUETAMENT', time + t_empaquetar[0], None)
                 self.scheduler.afegirEsdeveniment(event_end_empaquetament)
 
-                event_end_empaquetament_queue = Event(self.queue, 'END_EMPAQUETAMENT', time + t_empaquetar, None)
+                event_end_empaquetament_queue = Event(self.queue, 'END_EMPAQUETAMENT', time + t_empaquetar[0], None)
                 self.scheduler.afegirEsdeveniment(event_end_empaquetament_queue)
 
                 self.state = "busy"
@@ -56,7 +56,8 @@ class Empaquetador:
         self.n_caixes_enviades = self.n_caixes_enviades + 1
 
         #traces
-        print("Empaquetador envia caixa "+str(self.n_caixes_enviades))
+        if self.scheduler.enableTraces:
+            print("Empaquetador envia caixa "+str(self.n_caixes_enviades))
 
         self.size = 0
 
