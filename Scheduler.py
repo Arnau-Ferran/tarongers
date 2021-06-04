@@ -4,11 +4,13 @@ from Queue import Queue
 from Server import *
 from Source import *
 from Event import *
+from sortedcontainers import SortedDict
 
 
 class Scheduler:
     currentTime = 0
-    eventList = []
+    #eventList = []
+    eventDict = SortedDict()
     ntreballadors = 0
     sources = []
     servers = []
@@ -44,7 +46,8 @@ class Scheduler:
 
         self.simulationStart = Event(self, 'SIMULATION_START', 0, None)
         self.eventlist = []
-        self.eventList.append(self.simulationStart)
+        #self.eventList.append(self.simulationStart)
+        self.eventDict[0] = self.simulationStart
 
     def sortTime(self, event):
         return event.time
@@ -61,11 +64,13 @@ class Scheduler:
 
         # bucle de simulació (condició fi simulació llista buida)
         # while self.eventList[eventIterator]:
-        while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventList):
+        while self.currentTime<self.tempsFiSimulacio and eventIterator < len(self.eventDict):   #len(self.eventList):
             #print("Esdeveniment número:" + str(eventIterator))
 
             # recuperem event simulacio
-            event = self.eventList[eventIterator]
+            #event = self.eventList[eventIterator]
+            event = self.eventDict.peekitem(index=eventIterator)[1]
+            #print("eventDict.peekitem(index=eventIterator)[1] = "+str(self.eventDict.peekitem(index=eventIterator)[1]))
             # actualitzem el rellotge de simulacio
             self.currentTime = event.time
             print("currentTime = "+str(self.currentTime))
@@ -79,14 +84,16 @@ class Scheduler:
 
     def afegirEsdeveniment(self, event):
         # inserir esdeveniment de forma ordenada
-        self.eventList.append(event)
-        '''if event.type == "DONE_RECOLLINT":
-            print("s'afegeix esdeveniment de tipus DONE_RECOLLINT. numTaronges = "+str(event.numTaronges)+". object(receptor) = "+str(event.object))
-        if event.type == "END_TRANSPORT":
-            print("s'afegeix esdeveniment de tipus END_TRANSPORT")  #no salta mai'''
+        if self.eventDict.__contains__(event.time):
+            event.time += 0.0000001
+            self.afegirEsdeveniment(event)
+            #self.eventDict[event.time+0.0000000000000001] = event
+        else:
+            self.eventDict[event.time] = event
+        #self.eventList.append(event)
 
         #ordenar la eventList segons el time. no tenim en compte prioritat.
-        self.eventList.sort(key=self.sortTime)
+        #self.eventList.sort(key=self.sortTime)
 
 
     def tractarEsdeveniment(self, event):
