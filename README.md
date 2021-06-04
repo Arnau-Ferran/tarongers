@@ -10,3 +10,5 @@ Pràctica de simulador a mida per a SIM - FIB - UPC
 
 Per a executar:
 ```python Scheduler.py```
+
+El booleà enableTraces de Scheduler.py serveix per a activar i desactivar els traces al llarg de l'execució
